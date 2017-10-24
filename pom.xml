@@ -19,8 +19,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kumuluzee.version>2.5.0-SNAPSHOT</kumuluzee.version>
     </properties>
-    <name>KumuluzEE JAX-RS sample</name>
-    <description>JAX-RS usage sample with KumuluzEE</description>
+    <name>KumuluzEE JAX-RS Product Microservice</name>
+    <description>KumuluzEE JAX-RS Product Microservice</description>
 
 	
 	 <repositories>

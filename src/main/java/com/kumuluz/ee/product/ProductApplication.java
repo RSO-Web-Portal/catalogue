@@ -18,15 +18,12 @@
  *  software. See the License for the specific language governing permissions and
  *  limitations under the License.
 */
-package com.kumuluz.ee.samples.jaxrs;
+package com.kumuluz.ee.product;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-/**
- * @author Benjamin Kastelic
- * @since 2.3.0
- */
+
 @ApplicationPath("v1")
-public class CustomerApplication extends Application {
+public class ProductApplication extends Application {
 }
