@@ -13,7 +13,7 @@ before_install:
   - docker build -t dockerfile .
   - docker run -d -p 127.0.0.1:8081:4567 dockerfile /bin/sh -c "cd /root; bundle exec foreman start;"
   - docker ps -a
-  - docker run dockerfile /bin/sh -c "cd /root; bundle exec rake test"
+  - docker run dockerfile /bin/sh -c "cd /root;"
 
 script:
   - bundle exec rake test
