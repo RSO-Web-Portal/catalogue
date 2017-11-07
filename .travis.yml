@@ -1,5 +1,25 @@
+sudo: required
+
 language: java
 dist: trusty
 
 jdk:
 - openjdk8
+
+services:
+  - docker
+
+before_install:
+  - docker build -t catalogue .
+  - docker run -d -p 127.0.0.1:80:4567 catalogue /bin/sh -c "cd /root/catalogue; bundle exec foreman start;"
+  - docker ps -a
+  - docker run catalogue /bin/sh -c "cd /root/catalogue; bundle exec rake test"
+
+script:
+  - bundle exec rake test
+  
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
+    docker push USER/REPO;
+    fi
