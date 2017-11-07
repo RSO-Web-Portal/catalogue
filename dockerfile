@@ -8,6 +8,6 @@ WORKDIR /catalogue
 COPY . ./catalogue
 ADD . /catalogue
 
-EXPOSE 8081
+EXPOSE 8080
 
 CMD ["java", "-jar", "jax-rs-2.5.0-SNAPSHOT.jar"]
