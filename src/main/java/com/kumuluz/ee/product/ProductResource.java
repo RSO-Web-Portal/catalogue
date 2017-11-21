@@ -20,17 +20,38 @@
 */
 package com.kumuluz.ee.product;
 
+
+import com.kumuluz.ee.discovery.annotations.DiscoverService;
+import com.kumuluz.ee.discovery.enums.AccessType;
+import com.kumuluz.ee.discovery.utils.DiscoveryUtil;
+
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.URL;
 import java.util.List;
+import java.util.Optional;
+
+import javax.enterprise.context.RequestScoped;
 
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Path("products")
+@RequestScoped
 public class ProductResource {
+
+
+    @Inject
+    @DiscoverService(value = "account-service", version = "1.0.x", environment = "dev")
+    private Optional<String> target;
+
+    @Inject
+    private DiscoveryUtil discoveryUtil;
+
 
     @GET
     public Response getAllProducts() {
@@ -51,10 +72,31 @@ public class ProductResource {
     @Path("{productId}/details")
     public Response getProductDetails(@PathParam("productId") String productId) {
         Product product = Database.getProduct(productId);
-        Client client = ClientBuilder.newClient();
-        String name = client.target("http://localhost:8080/v1/accounts/"+product.getAccountId()+"/name")
+        //Client client = ClientBuilder.newClient();
+        /*String name = client.target("http://localhost:8080/v1/accounts/"+product.getAccountId()+"/name")
                 .request(MediaType.APPLICATION_JSON)
-                .get(String.class);
+                .get(String.class);*/
+
+        String name = "";
+        if (!target.isPresent()) {
+            System.out.println("NI NAJDEN!!!");
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        /*URL url = discoveryUtil.getServiceInstance("account-service", "*", "dev", AccessType.DIRECT).orElse(null);
+        if (url == null) System.out.println("NULLLLLLLLLLLLLLLLLLLLLLLLLLLLLl QWEQWEQWE");
+        */
+       /* WebTarget accountService = target.get().path("v1/accounts/"+product.getAccountId()+"/name");
+
+        Response response;
+        String name = "UNDEFINED";
+        try {
+            response = accountService.request().get();
+            name = (String) response.getEntity();
+        } catch (ProcessingException e) {
+            return Response.status(408).build();
+        }
+*/
         return product != null
                 ? Response.ok().entity("Owner of '" + product.getTitle() + "' is '" + name + "'.").build()
                 : Response.status(Response.Status.NOT_FOUND).build();

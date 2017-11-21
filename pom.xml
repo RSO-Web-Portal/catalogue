@@ -9,21 +9,24 @@
     </parent>-->
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jax-rs</artifactId>
-	<groupId>com.kumuluz.ee.samples</groupId>
-	<version>2.5.0-SNAPSHOT</version>
-	
-	<properties>
+    <artifactId>catalogue.service</artifactId>
+    <groupId>com.kumuluz.ee.samples</groupId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kumuluzee.version>2.5.0-SNAPSHOT</kumuluzee.version>
+        <kumuluzee-config.version>1.1.0-SNAPSHOT</kumuluzee-config.version>
+        <kumuluzee-discovery.version>1.1.0-SNAPSHOT</kumuluzee-discovery.version>
+        <kumuluzee-rest.version>1.1.0</kumuluzee-rest.version>
     </properties>
-    <name>KumuluzEE JAX-RS Product Microservice</name>
-    <description>KumuluzEE JAX-RS Product Microservice</description>
+    <name>KumuluzEE JAX-RS Account Microservice</name>
+    <description>KumuluzEE JAX-RS Account Microservice</description>
 
-	
-	 <repositories>
+
+    <repositories>
         <repository>
             <id>sonatype-snapshots</id>
             <name>Sonatype Snapshots</name>
@@ -50,7 +53,7 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-	
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -60,6 +63,24 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>com.kumuluz.ee.config</groupId>
+                <artifactId>kumuluzee-config-etcd</artifactId>
+                <version>${kumuluzee-config.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kumuluz.ee.discovery</groupId>
+                <artifactId>kumuluzee-discovery-etcd</artifactId>
+                <version>${kumuluzee-discovery.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.kumuluz.ee.rest</groupId>
+                <artifactId>kumuluzee-rest-core</artifactId>
+                <version>${kumuluzee-rest.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -76,7 +97,19 @@
             <groupId>com.kumuluz.ee</groupId>
             <artifactId>kumuluzee-jax-rs-jersey</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.kumuluz.ee</groupId>
+            <artifactId>kumuluzee-cdi-weld</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.kumuluz.ee.discovery</groupId>
+            <artifactId>kumuluzee-discovery-etcd</artifactId>
+        </dependency>
+
     </dependencies>
+
 
     <build>
         <plugins>
