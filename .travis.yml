@@ -18,5 +18,6 @@ before_install:
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
-    docker push rsodocker123:catalogue-service;
+    docker tag rsodocker123:catalogue-service rsodocker123/catalogue-service:qwe;
+    docker push rsodocker123/catalogue-service:qwe;
     fi
