@@ -10,10 +10,10 @@ services:
   - docker
 
 before_install:
-  - docker build -t dockerfile .
-  - docker run -d -p 127.0.0.1:8080:4567 dockerfile /bin/sh -c "cd /root; bundle exec foreman start;"
+  - docker build -t rsodocker123:catalogue-service .
+  - docker run -d -p 127.0.0.1:8080:4567 rsodocker123:catalogue-service /bin/sh -c "cd /root; bundle exec foreman start;"
   - docker ps -a
-  - docker run dockerfile /bin/sh -c "cd /root;"
+  - docker run rsodocker123:catalogue-service /bin/sh -c "cd /root;"
   
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
