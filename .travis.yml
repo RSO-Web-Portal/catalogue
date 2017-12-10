@@ -10,6 +10,7 @@ services:
   - docker
 
 before_install:
+  - mvn clean package
   - docker build -t rsodocker123:catalogue-service .
   - docker run -d -p 127.0.0.1:8082:8082 rsodocker123:catalogue-service
   - docker ps -a
