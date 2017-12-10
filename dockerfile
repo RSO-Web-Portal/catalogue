@@ -10,4 +10,4 @@ ADD . /catalogue
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "jax-rs-2.5.0-SNAPSHOT.jar"]
+CMD ["java", "-jar", "catalogue/jax-rs-2.5.0-SNAPSHOT.jar"]
