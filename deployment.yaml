@@ -52,6 +52,9 @@ spec:
       - image: rsodocker123/catalogue-service
         imagePullPolicy: Always
         name: catalogue-service
+        ports:
+        - containerPort: 443
+        - containerPort: 8082
         resources: {}
         securityContext:
           privileged: false
