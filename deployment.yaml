@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogue-service
+  labels:
+    run: catalogue-service
+spec:
+  type: NodePort
+  ports:
+  - port: 8082
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    protocol: TCP
+    name: https
+  selector:
+    run: catalogue-service
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: 2017-12-10T16:11:53Z
+  generation: 1
+  labels:
+    app: catalogue-service
+  name: catalogue-service
+  namespace: default
+  resourceVersion: "178728"
+  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/catalogue-service
+  uid: d63d7da6-ddc4-11e7-8b40-32365be20012
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalogue-service
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: catalogue-service
+      name: catalogue-service
+    spec:
+      containers:
+      - image: rsodocker123/catalogue-service
+        imagePullPolicy: Always
+        name: catalogue-service
+        resources: {}
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  conditions:
+  - lastTransitionTime: 2017-12-10T16:11:53Z
+    lastUpdateTime: 2017-12-10T16:11:53Z
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 1
+  replicas: 1
+  unavailableReplicas: 1
+  updatedReplicas: 1
