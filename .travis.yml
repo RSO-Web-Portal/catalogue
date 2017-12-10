@@ -11,7 +11,7 @@ services:
 
 before_install:
   - docker build -t rsodocker123:catalogue-service .
-  - docker run -d -p 127.0.0.1:8080:4567 rsodocker123:catalogue-service /bin/sh -c "cd /root; bundle exec foreman start;"
+  - docker run -d -p 127.0.0.1:8080:4567 rsodocker123:catalogue-service /bin/sh -c "cd /root;"
   - docker ps -a
   - docker run rsodocker123:catalogue-service /bin/sh -c "cd /root;"
   
