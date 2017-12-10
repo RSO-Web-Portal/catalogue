@@ -17,3 +17,10 @@ kumuluzee:
     servlet:
       mapping: /health
       enabled: true
+  metrics:
+    web-instrumentation:
+      - name: products-endpoint
+        url-pattern: /v1/products/*
+    servlet:
+      enabled: true
+      mapping: /metrics

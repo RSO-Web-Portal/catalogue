@@ -26,6 +26,7 @@ import com.kumuluz.ee.discovery.enums.AccessType;
 import com.kumuluz.ee.discovery.utils.DiscoveryUtil;
 import com.kumuluz.ee.health.HealthRegistry;
 import com.kumuluz.ee.product.health.ProductDiscoveryHealthCheckBean;
+import org.eclipse.microprofile.metrics.annotation.Metered;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -56,6 +57,7 @@ public class ProductResource {
 
 
     @GET
+    @Metered(name = "get-all-products-requests")
     public Response getAllProducts() {
         List<Product> products = Database.getProducts();
         return Response.ok(products).build();
