@@ -7,6 +7,6 @@ WORKDIR /catalogue
 COPY . ./catalogue
 ADD . /catalogue
 
-EXPOSE 8080
+EXPOSE 8082
 
 CMD ["java", "-jar", "target/account-service-2.5.0-SNAPSHOT.jar"]
