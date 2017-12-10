@@ -12,9 +12,9 @@ services:
 before_install:
   - mvn clean package
   - docker build -t rsodocker123:catalogue-service .
-  - docker run -d -p 127.0.0.1:8082:8082 rsodocker123:catalogue-service
+  - docker run -d -p 127.0.0.1:8082:8082 rsodocker123:catalogue-service /bin/sh -c "cd /root;"
   - docker ps -a
-  - docker run rsodocker123:catalogue-service
+  - docker run rsodocker123:catalogue-service /bin/sh -c "cd /root;"
   
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
