@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogue-service
+  labels:
+    qwe: catalogue-service
+spec:
+  type: NodePort
+  ports:
+  - port: 8082
+    targetPort: 8082
+    protocol: TCP
+    name: http
+  selector:
+    qwe: catalogue-service
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: catalogue-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        qwe: catalogue-service
+    spec:
+      containers:
+      - image: rsodocker123/catalogue-service
+        imagePullPolicy: Always
+        name: catalogue-service
+        ports:
+        - containerPort: 443
+        - containerPort: 8082
+        resources: {}
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      restartPolicy: Always

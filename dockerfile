@@ -9,4 +9,4 @@ ADD . /catalogue
 
 EXPOSE 8082
 
-CMD ["java", "-jar", "target/account-service-2.5.0-SNAPSHOT.jar"]
+CMD ["java", "-jar", "target/catalogue.service-1.0.0-SNAPSHOT.jar"]
