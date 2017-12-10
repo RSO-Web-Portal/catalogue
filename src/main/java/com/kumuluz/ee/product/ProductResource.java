@@ -24,6 +24,8 @@ package com.kumuluz.ee.product;
 import com.kumuluz.ee.discovery.annotations.DiscoverService;
 import com.kumuluz.ee.discovery.enums.AccessType;
 import com.kumuluz.ee.discovery.utils.DiscoveryUtil;
+import com.kumuluz.ee.health.HealthRegistry;
+import com.kumuluz.ee.product.health.ProductDiscoveryHealthCheckBean;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -47,7 +49,7 @@ public class ProductResource {
 
     @Inject
     @DiscoverService(value = "account-service", version = "1.0.x", environment = "dev")
-    private Optional<String> target;
+    private Optional<WebTarget> target;
 
     @Inject
     private DiscoveryUtil discoveryUtil;
@@ -69,7 +71,7 @@ public class ProductResource {
     }
 
     @GET
-    @Path("{productId}/details")
+    @Path("{productId}/owner")
     public Response getProductDetails(@PathParam("productId") String productId) {
         Product product = Database.getProduct(productId);
         //Client client = ClientBuilder.newClient();
@@ -83,22 +85,17 @@ public class ProductResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        /*URL url = discoveryUtil.getServiceInstance("account-service", "*", "dev", AccessType.DIRECT).orElse(null);
-        if (url == null) System.out.println("NULLLLLLLLLLLLLLLLLLLLLLLLLLLLLl QWEQWEQWE");
-        */
-       /* WebTarget accountService = target.get().path("v1/accounts/"+product.getAccountId()+"/name");
+        WebTarget accountService = target.get().path("v1/accounts/"+product.getAccountId()+"/name");
 
         Response response;
-        String name = "UNDEFINED";
         try {
             response = accountService.request().get();
-            name = (String) response.getEntity();
         } catch (ProcessingException e) {
             return Response.status(408).build();
         }
-*/
+
         return product != null
-                ? Response.ok().entity("Owner of '" + product.getTitle() + "' is '" + name + "'.").build()
+                ? Response.ok().entity(response.getEntity()).build()
                 : Response.status(Response.Status.NOT_FOUND).build();
     }
 
@@ -106,6 +103,10 @@ public class ProductResource {
     @Path("init")
     public Response initProducts() {
         Database.initDatabase();
+
+        // DIscovery health check....injecta se null
+        //HealthRegistry.getInstance().register(ProductDiscoveryHealthCheckBean.class.getSimpleName(), new ProductDiscoveryHealthCheckBean());
+
         return Response.ok().build();
     }
 

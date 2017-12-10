@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: com.kumuluz.ee.discovery:kumuluzee-discovery-common:1.1.0-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/kumuluz/ee/discovery/kumuluzee-discovery-common/1.1.0-SNAPSHOT/kumuluzee-discovery-common-1.1.0-20171110.092623-14.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/kumuluz/ee/discovery/kumuluzee-discovery-common/1.1.0-SNAPSHOT/kumuluzee-discovery-common-1.1.0-20171204.163458-16.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/com/kumuluz/ee/discovery/kumuluzee-discovery-common/1.1.0-SNAPSHOT/kumuluzee-discovery-common-1.1.0-20171110.092623-14-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/kumuluz/ee/discovery/kumuluzee-discovery-common/1.1.0-SNAPSHOT/kumuluzee-discovery-common-1.1.0-20171204.163458-16-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/kumuluz/ee/discovery/kumuluzee-discovery-common/1.1.0-SNAPSHOT/kumuluzee-discovery-common-1.1.0-20171110.092623-14-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/kumuluz/ee/discovery/kumuluzee-discovery-common/1.1.0-SNAPSHOT/kumuluzee-discovery-common-1.1.0-20171204.163458-16-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

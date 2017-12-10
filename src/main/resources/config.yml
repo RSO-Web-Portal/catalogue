@@ -10,3 +10,10 @@ kumuluzee:
   discovery:
     etcd:
       hosts: http://localhost:2379
+  health:
+    checks:
+      http-health-check:
+        connection-url: http://www.bolha.com
+    servlet:
+      mapping: /health
+      enabled: true

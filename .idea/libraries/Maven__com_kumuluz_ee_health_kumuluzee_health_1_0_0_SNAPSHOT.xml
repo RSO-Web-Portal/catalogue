@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.kumuluz.ee.health:kumuluzee-health:1.0.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/kumuluz/ee/health/kumuluzee-health/1.0.0-SNAPSHOT/kumuluzee-health-1.0.0-20171205.150934-33.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/kumuluz/ee/health/kumuluzee-health/1.0.0-SNAPSHOT/kumuluzee-health-1.0.0-20171205.150934-33-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/kumuluz/ee/health/kumuluzee-health/1.0.0-SNAPSHOT/kumuluzee-health-1.0.0-20171205.150934-33-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
