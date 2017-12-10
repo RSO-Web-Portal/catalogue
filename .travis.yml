@@ -11,9 +11,9 @@ services:
 
 before_install:
   - docker build -t rsodocker123:catalogue-service .
-  - docker run -d -p 127.0.0.1:8080:4567 rsodocker123:catalogue-service /bin/sh -c "cd /root;"
+  - docker run -d -p 127.0.0.1:8080:4567 rsodocker123:catalogue-service
   - docker ps -a
-  - docker run rsodocker123:catalogue-service /bin/sh -c "cd /root;"
+  - docker run rsodocker123:catalogue-service
   
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
