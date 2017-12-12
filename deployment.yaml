@@ -29,6 +29,11 @@ spec:
       - image: rsodocker123/catalogue-service
         imagePullPolicy: Always
         name: catalogue-service
+        env:
+          - name: KUMULUZEE_DISCOVERY_CLUSTER
+            value: etcd-cluster
+          - name: KUMULUZEE_DISCOVERY_ETCD_HOSTS
+            value: http://etcd:2379
         ports:
         - containerPort: 443
         - containerPort: 8082

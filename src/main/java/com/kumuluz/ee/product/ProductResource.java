@@ -26,8 +26,11 @@ import com.kumuluz.ee.discovery.enums.AccessType;
 import com.kumuluz.ee.discovery.utils.DiscoveryUtil;
 import com.kumuluz.ee.health.HealthRegistry;
 import com.kumuluz.ee.product.health.ProductDiscoveryHealthCheckBean;
+import com.kumuluz.ee.product.mejnik.Mejnik1;
+import jdk.nashorn.internal.runtime.JSONFunctions;
 import org.eclipse.microprofile.metrics.annotation.Metered;
 
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
@@ -123,5 +126,19 @@ public class ProductResource {
     public Response deleteProduct(@PathParam("productId") String productId) {
         Database.deleteProduct(productId);
         return Response.noContent().build();
+    }
+
+    @GET
+    @Path("mejnik1")
+    public Response mejnik1() {
+        Mejnik1 m = new Mejnik1();
+        m.setClani(new String[] {"zs3179", "ns3868"});
+        m.setOpis_projekta("Nas projekt implemenitra boljšo bolho - portal za prodajo in nakupovanje različnih izdelkov");
+        m.setMikrostoritve(new String[] {"http://placeholder/v1/accounts", "http://placeholder/v1/products"});
+        m.setGithub(new String[] {"https://github.com/RSO-Web-Portal/account-service", "https://github.com/RSO-Web-Portal/catalogue-service"});
+        m.setTravis(new String[] {"https://travis-ci.org/RSO-Web-Portal/account-service", "https://travis-ci.org/RSO-Web-Portal/catalogue-service"});
+        m.setDockerhub(new String[] {"https://hub.docker.com/r/rsodocker123/account-service", "https://hub.docker.com/r/rsodocker123/catalogue-service/"});
+
+        return Response.ok().entity(m).build();
     }
 }
