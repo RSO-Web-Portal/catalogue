@@ -134,7 +134,7 @@ public class ProductResource {
         Mejnik1 m = new Mejnik1();
         m.setClani(new String[] {"zs3179", "ns3868"});
         m.setOpis_projekta("Nas projekt implemenitra boljšo bolho - portal za prodajo in nakupovanje različnih izdelkov");
-        m.setMikrostoritve(new String[] {"http://placeholder/v1/accounts", "http://placeholder/v1/products"});
+        m.setMikrostoritve(new String[] {"http://169.51.17.38:32314/v1/accounts", "http://169.51.17.38:32456/v1/products"});
         m.setGithub(new String[] {"https://github.com/RSO-Web-Portal/account-service", "https://github.com/RSO-Web-Portal/catalogue-service"});
         m.setTravis(new String[] {"https://travis-ci.org/RSO-Web-Portal/account-service", "https://travis-ci.org/RSO-Web-Portal/catalogue-service"});
         m.setDockerhub(new String[] {"https://hub.docker.com/r/rsodocker123/account-service", "https://hub.docker.com/r/rsodocker123/catalogue-service/"});
