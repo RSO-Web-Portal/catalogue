@@ -24,10 +24,15 @@ package com.kumuluz.ee.product;
 import com.kumuluz.ee.discovery.annotations.DiscoverService;
 import com.kumuluz.ee.discovery.enums.AccessType;
 import com.kumuluz.ee.discovery.utils.DiscoveryUtil;
+import com.kumuluz.ee.fault.tolerance.annotations.CommandKey;
+import com.kumuluz.ee.fault.tolerance.annotations.GroupKey;
 import com.kumuluz.ee.health.HealthRegistry;
 import com.kumuluz.ee.product.health.ProductDiscoveryHealthCheckBean;
 import com.kumuluz.ee.product.mejnik.Mejnik1;
+import com.sun.org.apache.regexp.internal.RE;
+import org.eclipse.microprofile.faulttolerance.Timeout;
 import jdk.nashorn.internal.runtime.JSONFunctions;
+import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.metrics.annotation.Metered;
 
 import javax.annotation.security.PermitAll;
@@ -39,6 +44,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URL;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +53,7 @@ import javax.enterprise.context.RequestScoped;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Path("products")
+@GroupKey("ProductResource")
 @RequestScoped
 public class ProductResource {
 
@@ -77,6 +84,9 @@ public class ProductResource {
 
     @GET
     @Path("{productId}/owner")
+    @CommandKey("getProductDetails")
+    @Timeout(value = 2, unit = ChronoUnit.SECONDS)
+    @Fallback(fallbackMethod = "getProductDetailsFallback")
     public Response getProductDetails(@PathParam("productId") String productId) {
         Product product = Database.getProduct(productId);
         //Client client = ClientBuilder.newClient();
@@ -102,6 +112,10 @@ public class ProductResource {
         return product != null
                 ? Response.ok().entity(response.getEntity()).build()
                 : Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    public Response getProductDetailsFallback(String productId) {
+        return Response.accepted("Fallback: getProductDetails timeout - account service may not be available.").build();
     }
 
     @POST
