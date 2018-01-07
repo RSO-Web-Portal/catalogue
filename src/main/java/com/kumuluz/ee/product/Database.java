@@ -21,11 +21,17 @@
 package com.kumuluz.ee.product;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 public class Database {
-    private static List<Product> products = new ArrayList<>();
+    private static List<Product> products = new ArrayList<>(
+            Arrays.asList(
+                    new Product("1", "Spomin na lepše čase", "Stara uniforma", 121.21321, new Date(), new Date(), "1"),
+                    new Product("2", "Spomin na grše čase", "Nova uniforma", 44, new Date(), new Date(), "2")
+            )
+    );
 
     public static void initDatabase() {
         Product p = new Product();

@@ -32,6 +32,20 @@ public class Product {
     private Date publishDate;
     private Date expirationDate;
 
+    public Product() {
+
+    }
+
+    public Product(String id, String title, String description, double price, Date publishDate, Date expirationDate, String accountId) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.publishDate = publishDate;
+        this.expirationDate = expirationDate;
+        this.accountId = accountId;
+    }
+
     public String getAccountId() {
         return accountId;
     }
