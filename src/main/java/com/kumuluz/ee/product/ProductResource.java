@@ -22,29 +22,22 @@ package com.kumuluz.ee.product;
 
 
 import com.kumuluz.ee.discovery.annotations.DiscoverService;
-import com.kumuluz.ee.discovery.enums.AccessType;
 import com.kumuluz.ee.discovery.utils.DiscoveryUtil;
 import com.kumuluz.ee.fault.tolerance.annotations.CommandKey;
 import com.kumuluz.ee.fault.tolerance.annotations.GroupKey;
-import com.kumuluz.ee.health.HealthRegistry;
-import com.kumuluz.ee.product.health.ProductDiscoveryHealthCheckBean;
 import com.kumuluz.ee.product.mejnik.Mejnik1;
-import com.sun.org.apache.regexp.internal.RE;
 import org.eclipse.microprofile.faulttolerance.Timeout;
-import jdk.nashorn.internal.runtime.JSONFunctions;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.metrics.annotation.Metered;
 
-import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.net.URL;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,11 +52,8 @@ public class ProductResource {
 
 
     @Inject
-    @DiscoverService(value = "account-service", version = "1.0.x", environment = "dev")
+    @DiscoverService(value = "order-service", version = "1.0.x", environment = "dev")
     private Optional<WebTarget> target;
-
-    @Inject
-    private DiscoveryUtil discoveryUtil;
 
 
     @GET
@@ -71,6 +61,19 @@ public class ProductResource {
     public Response getAllProducts() {
         List<Product> products = Database.getProducts();
         return Response.ok(products).build();
+    }
+
+    @GET
+    @Path("active")
+    public Response getAllActiveProducts() {
+        List<Product> products = Database.getProducts();
+        List<Product> active = new ArrayList<>();
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).isActive()) {
+                active.add(products.get(i));
+            }
+        }
+        return Response.ok(active).build();
     }
 
     @GET
@@ -82,17 +85,14 @@ public class ProductResource {
                 : Response.status(Response.Status.NOT_FOUND).build();
     }
 
+
     @GET
-    @Path("{productId}/owner")
+    @Path("{productId}/order")
     @CommandKey("getProductDetails")
     @Timeout(value = 2, unit = ChronoUnit.SECONDS)
     @Fallback(fallbackMethod = "getProductDetailsFallback")
     public Response getProductDetails(@PathParam("productId") String productId) {
         Product product = Database.getProduct(productId);
-        //Client client = ClientBuilder.newClient();
-        /*String name = client.target("http://localhost:8080/v1/accounts/"+product.getAccountId()+"/name")
-                .request(MediaType.APPLICATION_JSON)
-                .get(String.class);*/
 
         String name = "";
         if (!target.isPresent()) {
@@ -100,39 +100,71 @@ public class ProductResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        WebTarget accountService = target.get().path("v1/accounts/"+product.getAccountId()+"/name");
+        WebTarget orderService = target.get().path("v1/orders/"+product.getOrderId());
 
         Response response;
         try {
-            response = accountService.request().get();
+            response = orderService.request().get();
         } catch (ProcessingException e) {
             return Response.status(408).build();
         }
 
         return product != null
-                ? Response.ok().entity(response.getEntity()).build()
+                ? Response.ok().entity(response.readEntity(Order.class)).build()
                 : Response.status(Response.Status.NOT_FOUND).build();
     }
 
     public Response getProductDetailsFallback(String productId) {
-        return Response.accepted("Fallback: getProductDetails timeout - account service may not be available.").build();
+        return Response.accepted("Fallback: /order - order service may not be available or an error has occured.").build();
     }
 
-    @POST
-    @Path("init")
-    public Response initProducts() {
-        Database.initDatabase();
 
-        // DIscovery health check....injecta se null
-        //HealthRegistry.getInstance().register(ProductDiscoveryHealthCheckBean.class.getSimpleName(), new ProductDiscoveryHealthCheckBean());
 
-        return Response.ok().build();
+
+    @GET
+    @Path("{productId}/items")
+    public Response getProductDetailsItems(@PathParam("productId") String productId) {
+        Product product = Database.getProduct(productId);
+
+        String name = "";
+        if (!target.isPresent()) {
+            System.out.println("NI NAJDEN!!!");
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        WebTarget orderService = target.get().path("v1/orders/"+product.getOrderId() + "/items");
+
+        Response response;
+        try {
+            response = orderService.request().get();
+        } catch (ProcessingException e) {
+            return Response.status(408).build();
+        }
+
+        return product != null
+                ? Response.ok().entity(response.readEntity(Item[].class)).build()
+                : Response.status(Response.Status.NOT_FOUND).build();
     }
+
 
     @POST
     public Response addNewProduct(Product product) {
+        System.out.println("DOBIL SEM NEKI!!!!");
         Database.addProduct(product);
         return Response.noContent().build();
+    }
+
+    @GET
+    @Path("{id}/makeTransaction")
+    public Response makeTransaction(@PathParam("id") String id) {
+        Product p = Database.getProduct(id);
+        if (p == null || !p.isActive()) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        } else {
+            p.setActive(false);
+            return Response.status(Response.Status.OK).build();
+        }
+
     }
 
     @DELETE

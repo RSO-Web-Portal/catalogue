@@ -28,31 +28,14 @@ import java.util.List;
 public class Database {
     private static List<Product> products = new ArrayList<>(
             Arrays.asList(
-                    new Product("1", "Spomin na lepše čase", "Stara uniforma", 121.21321, new Date(), new Date(), "1"),
-                    new Product("2", "Spomin na grše čase", "Nova uniforma", 44, new Date(), new Date(), "2")
+                    new Product("1", "1", "1", 49.99f, true),
+                    new Product("2", "2", "3", 29.99f, true),
+                    new Product("3", "3", "2", 5.00f, true)
             )
     );
 
     public static void initDatabase() {
-        Product p = new Product();
-        p.setAccountId("1");
-        p.setId("1");
-        p.setDescription("Spomin na lepše čase");
-        p.setTitle("Stara uniforma");
-        p.setPrice(121.12);
-        p.setPublishDate(new Date());
-        p.setExpirationDate(new Date());
-        products.add(p);
 
-        p = new Product();
-        p.setAccountId("2");
-        p.setId("2");
-        p.setDescription("Spomin na grše čase");
-        p.setTitle("Nova uniforma");
-        p.setPrice(2.1);
-        p.setPublishDate(new Date());
-        p.setExpirationDate(new Date());
-        products.add(p);
     }
 
     public static List<Product> getProducts() {
@@ -69,7 +52,12 @@ public class Database {
     }
 
     public static void addProduct(Product product) {
+
+        String lastId = products.get(products.size() - 1).getId();
+        String id = Integer.toString(Integer.valueOf(lastId) + 1);
+        product.setId(id);
         products.add(product);
+
     }
 
     public static void deleteProduct(String productId) {

@@ -26,35 +26,24 @@ import java.util.Date;
 public class Product {
 
     private String id;
-    private String title;
-    private String description;
-    private double price;
-    private Date publishDate;
-    private Date expirationDate;
+    private String orderId;
+    private String priorityId;
+    private float price;
+
+    private boolean active;
 
     public Product() {
 
     }
 
-    public Product(String id, String title, String description, double price, Date publishDate, Date expirationDate, String accountId) {
+
+    public Product(String id, String orderId, String priorityId, float price, boolean active) {
         this.id = id;
-        this.title = title;
-        this.description = description;
+        this.orderId = orderId;
+        this.priorityId = priorityId;
         this.price = price;
-        this.publishDate = publishDate;
-        this.expirationDate = expirationDate;
-        this.accountId = accountId;
+        this.active = active;
     }
-
-    public String getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
-    }
-
-    private String accountId;
 
     public String getId() {
         return id;
@@ -64,43 +53,36 @@ public class Product {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
-    public String getDescription() {
-        return description;
+    public String getPriorityId() {
+        return priorityId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPriorityId(String priorityId) {
+        this.priorityId = priorityId;
     }
 
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
-    public Date getPublishDate() {
-        return publishDate;
+
+    public boolean isActive() {
+        return active;
     }
 
-    public void setPublishDate(Date publishDate) {
-        this.publishDate = publishDate;
-    }
-
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
-
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
