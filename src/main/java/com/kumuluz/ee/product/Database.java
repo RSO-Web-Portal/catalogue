@@ -29,8 +29,8 @@ public class Database {
     private static List<Product> products = new ArrayList<>(
             Arrays.asList(
                     new Product("1", "1", "1", 49.99f, true),
-                    new Product("2", "2", "3", 29.99f, true),
-                    new Product("3", "3", "2", 5.00f, true)
+                    new Product("2", "3", "2", 29.99f, true),
+                    new Product("3", "2", "3", 5.00f, true)
             )
     );
 

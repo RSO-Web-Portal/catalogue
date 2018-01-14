@@ -34,14 +34,13 @@ import org.eclipse.microprofile.metrics.annotation.Metered;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.lang.reflect.Array;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import javax.enterprise.context.RequestScoped;
 
@@ -79,7 +78,37 @@ public class ProductResource {
                 active.add(products.get(i));
             }
         }
-        return Response.ok(active).build();
+
+        String[][] toSend = new String[active.size()][2];
+        for (int i = 0; i < active.size(); i++) {
+            toSend[i][0] = active.get(i).getId();
+            toSend[i][1] = active.get(i).getPriorityId();
+        }
+
+        WebTarget priorityService = priorityTarget.get().path("v1/priorities/sort");
+
+        Response response = priorityService.request(MediaType.APPLICATION_JSON).post(Entity.json(toSend));
+
+        try {
+
+            String[] sortedIds = response.readEntity(String[].class);
+
+            List<Product> sorted = new ArrayList<>();
+            for (String s : sortedIds) {
+                for (Product p : active) {
+                    if (p.getId().equals(s)) {
+                        sorted.add(p);
+                        break;
+                    }
+                }
+            }
+
+            return Response.ok(sorted).build();
+
+        } catch (ProcessingException e) {
+            return Response.status(408).build();
+        }
+
     }
 
     @GET
