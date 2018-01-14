@@ -20,7 +20,7 @@
         <kumuluzee.version>2.5.0-SNAPSHOT</kumuluzee.version>
         <kumuluzee-config.version>1.1.0-SNAPSHOT</kumuluzee-config.version>
         <kumuluzee-discovery.version>1.1.0-SNAPSHOT</kumuluzee-discovery.version>
-        <kumuluzee-health.version>1.0.0-SNAPSHOT</kumuluzee-health.version>
+        <kumuluzee-health.version>1.1.0-SNAPSHOT</kumuluzee-health.version>
         <kumuluzee-rest.version>1.1.0</kumuluzee-rest.version>
         <kumuluzee-metrics.version>1.0.0-SNAPSHOT</kumuluzee-metrics.version>
     </properties>

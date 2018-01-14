@@ -25,6 +25,8 @@ import com.kumuluz.ee.discovery.annotations.DiscoverService;
 import com.kumuluz.ee.discovery.utils.DiscoveryUtil;
 import com.kumuluz.ee.fault.tolerance.annotations.CommandKey;
 import com.kumuluz.ee.fault.tolerance.annotations.GroupKey;
+import com.kumuluz.ee.health.HealthRegistry;
+import com.kumuluz.ee.product.health.ProductDiscoveryHealthCheckBean;
 import com.kumuluz.ee.product.mejnik.Mejnik1;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.faulttolerance.Fallback;
@@ -54,6 +56,10 @@ public class ProductResource {
     @Inject
     @DiscoverService(value = "order-service", version = "1.0.x", environment = "dev")
     private Optional<WebTarget> target;
+
+    @Inject
+    @DiscoverService(value = "priority-service", version = "1.0.x", environment = "dev")
+    private Optional<WebTarget> priorityTarget;
 
 
     @GET
@@ -165,6 +171,14 @@ public class ProductResource {
             return Response.status(Response.Status.OK).build();
         }
 
+    }
+
+    @GET
+    @Path("init")
+    public Response initHealth() {
+        // DIscovery health check....injecta se null
+        //HealthRegistry.getInstance().register(ProductDiscoveryHealthCheckBean.class.getSimpleName(), new ProductDiscoveryHealthCheckBean());
+        return Response.ok().build();
     }
 
     @DELETE
